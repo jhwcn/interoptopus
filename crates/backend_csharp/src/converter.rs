@@ -152,7 +152,7 @@ pub trait CSharpTypeConverter {
             },
             CType::FnPointer(x) => self.fnpointer_to_typename(x),
             CType::Pattern(x) => match x {
-                TypePattern::CStrPointer => "string".to_string(),
+                TypePattern::CStrPointer => "[MarshalAs(UnmanagedType.LPUTF8Str)] string".to_string(),
                 TypePattern::FFIErrorEnum(e) => self.enum_to_typename(e.the_enum()),
                 TypePattern::Slice(x) => self.composite_to_typename(x),
                 TypePattern::SliceMut(x) => self.composite_to_typename(x),

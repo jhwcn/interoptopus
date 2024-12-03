@@ -978,7 +978,7 @@ namespace My.Company
                 {
                     var anon1_slice = new SliceU8(new IntPtr(ptr_anon1), (ulong) anon1.Length);
                     var s = simple_service_lifetime_return_string_accept_slice(anon0, anon1_slice);;
-                    return Marshal.PtrToStringAnsi(s);
+                    return Marshal.PtrToStringUTF8(s);
                 }
             }
         }
@@ -988,7 +988,7 @@ namespace My.Company
         {
             var anon1_slice = new SliceU8(anon1);
             var s = simple_service_lifetime_return_string_accept_slice(anon0, anon1_slice);;
-            return Marshal.PtrToStringAnsi(s);
+            return Marshal.PtrToStringUTF8(s);
         }
         #endif
 
@@ -1762,7 +1762,7 @@ namespace My.Company
         public string ReturnString()
         {
             var s = Interop.simple_service_return_string(_context);
-            return Marshal.PtrToStringAnsi(s);
+            return Marshal.PtrToStringUTF8(s);
         }
 
         public void MethodVoidFfiError()
@@ -1898,7 +1898,7 @@ namespace My.Company
         public string ReturnStringAcceptSlice(SliceU8 anon1)
         {
             var s = Interop.simple_service_lifetime_return_string_accept_slice(_context, anon1);
-            return Marshal.PtrToStringAnsi(s);
+            return Marshal.PtrToStringUTF8(s);
         }
 
         public string ReturnStringAcceptSlice(byte[] anon1)

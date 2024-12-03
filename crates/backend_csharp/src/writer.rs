@@ -1053,7 +1053,7 @@ pub trait CSharpWriter {
             }
             CType::Pattern(TypePattern::CStrPointer) => {
                 indented!(w, [_], r#"var s = {};"#, fn_call)?;
-                indented!(w, [_], r#"return Marshal.PtrToStringAnsi(s);"#)?;
+                indented!(w, [_], r#"return Marshal.PtrToStringUTF8(s);"#)?;
             }
             CType::Primitive(PrimitiveType::Void) => {
                 indented!(w, [_], r#"{};"#, fn_call)?;

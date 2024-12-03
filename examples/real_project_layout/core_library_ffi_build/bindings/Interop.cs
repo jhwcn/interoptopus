@@ -20,7 +20,7 @@ namespace My.Company
 
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "start_server")]
-        public static extern void start_server(string server_name);
+        public static extern void start_server([MarshalAs(UnmanagedType.LPUTF8Str)] string server_name);
 
         /// Destroys the given instance.
         ///
@@ -59,9 +59,9 @@ namespace My.Company
         }
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "game_engine_place_object")]
-        public static extern FFIError game_engine_place_object(IntPtr context, string name, Vec2 position);
+        public static extern FFIError game_engine_place_object(IntPtr context, [MarshalAs(UnmanagedType.LPUTF8Str)] string name, Vec2 position);
 
-        public static void game_engine_place_object_checked(IntPtr context, string name, Vec2 position)
+        public static void game_engine_place_object_checked(IntPtr context, [MarshalAs(UnmanagedType.LPUTF8Str)] string name, Vec2 position)
         {
             var rval = game_engine_place_object(context, name, position);;
             if (rval != FFIError.Ok)
@@ -119,7 +119,7 @@ namespace My.Company
             }
         }
 
-        public void PlaceObject(string name, Vec2 position)
+        public void PlaceObject([MarshalAs(UnmanagedType.LPUTF8Str)] string name, Vec2 position)
         {
             var rval = Interop.game_engine_place_object(_context, name, position);
             if (rval != FFIError.Ok)

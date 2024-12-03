@@ -223,13 +223,13 @@ namespace My.Company
         public static extern Tupled repr_transparent(Tupled x, ref Tupled r);
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pattern_ascii_pointer_1")]
-        public static extern uint pattern_ascii_pointer_1(string x);
+        public static extern uint pattern_ascii_pointer_1([MarshalAs(UnmanagedType.LPUTF8Str)] string x);
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pattern_ascii_pointer_2")]
         public static extern IntPtr pattern_ascii_pointer_2();
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pattern_ascii_pointer_len")]
-        public static extern uint pattern_ascii_pointer_len(string x, UseAsciiStringPattern y);
+        public static extern uint pattern_ascii_pointer_len([MarshalAs(UnmanagedType.LPUTF8Str)] string x, UseAsciiStringPattern y);
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pattern_ascii_pointer_return_slice")]
         public static extern SliceUseAsciiStringPattern pattern_ascii_pointer_return_slice();
@@ -362,7 +362,7 @@ namespace My.Company
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "pattern_ffi_slice_7")]
         public static extern uint pattern_ffi_slice_7(SliceMutConstPtrI8 slices);
 
-        public static uint pattern_ffi_slice_7(string[] slices)
+        public static uint pattern_ffi_slice_7([MarshalAs(UnmanagedType.LPUTF8Str)] string[] slices)
         {
             var slices_pinned = GCHandle.Alloc(slices, GCHandleType.Pinned);
             var slices_slice = new SliceMutConstPtrI8(slices_pinned, (ulong) slices.Length);
@@ -720,9 +720,9 @@ namespace My.Company
         }
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "service_multiple_ctors_new_with_string")]
-        public static extern FFIError service_multiple_ctors_new_with_string(ref IntPtr context, string anon0);
+        public static extern FFIError service_multiple_ctors_new_with_string(ref IntPtr context, [MarshalAs(UnmanagedType.LPUTF8Str)] string anon0);
 
-        public static void service_multiple_ctors_new_with_string_checked(ref IntPtr context, string anon0)
+        public static void service_multiple_ctors_new_with_string_checked(ref IntPtr context, [MarshalAs(UnmanagedType.LPUTF8Str)] string anon0)
         {
             var rval = service_multiple_ctors_new_with_string(ref context, anon0);;
             if (rval != FFIError.Ok)
@@ -823,7 +823,7 @@ namespace My.Company
             try
             {
                 var s = service_using_lifetimes_return_string_accept_slice(anon0, anon1_slice);;
-                return Marshal.PtrToStringAnsi(s);
+                return Marshal.PtrToStringUTF8(s);
             }
             finally
             {
@@ -1032,7 +1032,7 @@ namespace My.Company
         }
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "service_strings_pass_string")]
-        public static extern void service_strings_pass_string(IntPtr context, string anon1);
+        public static extern void service_strings_pass_string(IntPtr context, [MarshalAs(UnmanagedType.LPUTF8Str)] string anon1);
 
         [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "service_strings_return_string")]
         public static extern IntPtr service_strings_return_string(IntPtr context);
@@ -2036,7 +2036,7 @@ namespace My.Company
         public string ReturnUbOnPanic()
         {
             var s = Interop.service_on_panic_return_ub_on_panic(_context);
-            return Marshal.PtrToStringAnsi(s);
+            return Marshal.PtrToStringUTF8(s);
         }
 
         public IntPtr Context => _context;
@@ -2183,7 +2183,7 @@ namespace My.Company
             return self;
         }
 
-        public static ServiceMultipleCtors NewWithString(string anon0)
+        public static ServiceMultipleCtors NewWithString([MarshalAs(UnmanagedType.LPUTF8Str)] string anon0)
         {
             var self = new ServiceMultipleCtors();
             var rval = Interop.service_multiple_ctors_new_with_string(ref self._context, anon0);
@@ -2269,7 +2269,7 @@ namespace My.Company
         public string ReturnStringAcceptSlice(SliceU8 anon1)
         {
             var s = Interop.service_using_lifetimes_return_string_accept_slice(_context, anon1);
-            return Marshal.PtrToStringAnsi(s);
+            return Marshal.PtrToStringUTF8(s);
         }
 
         public string ReturnStringAcceptSlice(byte[] anon1)
@@ -2428,7 +2428,7 @@ namespace My.Company
             }
         }
 
-        public void PassString(string anon1)
+        public void PassString([MarshalAs(UnmanagedType.LPUTF8Str)] string anon1)
         {
             Interop.service_strings_pass_string(_context, anon1);
         }
@@ -2436,7 +2436,7 @@ namespace My.Company
         public string ReturnString()
         {
             var s = Interop.service_strings_return_string(_context);
-            return Marshal.PtrToStringAnsi(s);
+            return Marshal.PtrToStringUTF8(s);
         }
 
         public IntPtr Context => _context;
